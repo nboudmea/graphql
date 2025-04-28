@@ -8,6 +8,8 @@ export const userResolvers: Resolvers = {
     user: (_, { id }, { dataSources }) => {
       return dataSources.db.user.findById(id);
     },
+
+
   },
   User: {
     songs: async (parent, _, { dataSources }) => {
