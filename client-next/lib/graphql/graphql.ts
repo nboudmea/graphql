@@ -16,6 +16,36 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+/** The input for creating a new genre */
+export type CreateGenreInput = {
+  /** The name of the genre */
+  name: Scalars['String']['input'];
+};
+
+export type CreateGenreResponse = {
+  __typename?: 'CreateGenreResponse';
+  /** The created genre */
+  genre: Genre;
+  /** Whether the genre was created successfully */
+  success: Scalars['Boolean']['output'];
+};
+
+/** The input for creating a new user */
+export type CreateSongInput = {
+  /** The genre of the song */
+  genreId: Scalars['String']['input'];
+  /** The name of the song */
+  name: Scalars['String']['input'];
+};
+
+export type CreateSongResponse = {
+  __typename?: 'CreateSongResponse';
+  /** The created song */
+  song: Song;
+  /** Whether the song was created successfully */
+  success: Scalars['Boolean']['output'];
+};
+
 /** The input for creating a new user */
 export type CreateUserInput = {
   /** The name of the user */
@@ -30,10 +60,60 @@ export type CreateUserResponse = {
   user: User;
 };
 
+export type DeleteSongResponse = {
+  __typename?: 'DeleteSongResponse';
+  /** The deleted song */
+  song: Song;
+  /** Whether the song was deleted successfully */
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteUserResponse = {
+  __typename?: 'DeleteUserResponse';
+  /** Whether the user was deleted successfully */
+  success: Scalars['Boolean']['output'];
+  /** The deleted user */
+  user: User;
+};
+
+export type Genre = {
+  __typename?: 'Genre';
+  /** The ID of the genre */
+  id: Scalars['ID']['output'];
+  /** The name of the genre */
+  name: Scalars['String']['output'];
+  /** The songs of the genre */
+  songs?: Maybe<Array<Song>>;
+  /** The number of songs of the genre */
+  songsCount?: Maybe<Scalars['Int']['output']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new user */
+  createGenre: CreateGenreResponse;
+  /** Create a new user */
+  createSong: CreateSongResponse;
+  /** Create a new user */
   createUser: CreateUserResponse;
+  /** Delete a song by current user */
+  deleteSong: DeleteSongResponse;
+  /** Delete a user by current user */
+  deleteUser: DeleteUserResponse;
+  /** Update a song by current user */
+  updateSong: UpdateSongResponse;
+  /** Update a user by current user */
+  updateUser: UpdateUserResponse;
+};
+
+
+export type MutationCreateGenreArgs = {
+  input: CreateGenreInput;
+};
+
+
+export type MutationCreateSongArgs = {
+  input: CreateSongInput;
 };
 
 
@@ -41,8 +121,36 @@ export type MutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
+
+export type MutationDeleteSongArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type MutationUpdateSongArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateSongInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateUserInput;
+};
+
 export type Query = {
   __typename?: 'Query';
+  /** Get a song by ID */
+  genreById?: Maybe<Genre>;
+  /** Get all songs */
+  genres: Array<Genre>;
+  /** Get a song by ID */
+  songById?: Maybe<Song>;
   /** Get all songs */
   songs: Array<Song>;
   /** Get a user by ID */
@@ -52,16 +160,73 @@ export type Query = {
 };
 
 
+export type QueryGenreByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QuerySongByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QuerySongsArgs = {
+  genreId?: InputMaybe<Scalars['ID']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
 };
 
+
+export type QueryUsersArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Song = {
   __typename?: 'Song';
+  /** The genre of the song */
+  genre: Genre;
   /** The ID of the song */
   id: Scalars['ID']['output'];
   /** The name of the song */
   name: Scalars['String']['output'];
+  /** The artist of the song */
+  user: User;
+};
+
+/** The input for updating a song */
+export type UpdateSongInput = {
+  /** The genre of the song */
+  genreId?: InputMaybe<Scalars['String']['input']>;
+  /** The name of the song */
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateSongResponse = {
+  __typename?: 'UpdateSongResponse';
+  /** The updated song */
+  song: Song;
+  /** Whether the song was updated successfully */
+  success: Scalars['Boolean']['output'];
+};
+
+/** The input for updating a user */
+export type UpdateUserInput = {
+  /** The name of the user */
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateUserResponse = {
+  __typename?: 'UpdateUserResponse';
+  /** Whether the user was updated successfully */
+  success: Scalars['Boolean']['output'];
+  /** The updated user */
+  user: User;
 };
 
 export type User = {
